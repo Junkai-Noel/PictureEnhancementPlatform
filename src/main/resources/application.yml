@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: Picture_enhancement_platform
+  profiles:
+    active: database
+  servlet:
+    multipart:
+      max-file-size: 5MB #最大允许上传文件大小5MB
+      max-request-size: 10MB #最大允许请求体中参数大小5MB
