@@ -2,7 +2,7 @@ spring:
   application:
     name: Picture_enhancement_platform
   profiles:
-    active: database
+    active: database,paths
   servlet:
     multipart:
       max-file-size: 5MB #最大允许上传文件大小5MB

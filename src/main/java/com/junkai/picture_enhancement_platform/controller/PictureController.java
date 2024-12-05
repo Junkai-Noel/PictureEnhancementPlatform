@@ -1,23 +1,32 @@
 package com.junkai.picture_enhancement_platform.controller;
 
 
+import com.junkai.picture_enhancement_platform.POJO.ModelParameterEntity;
+import com.junkai.picture_enhancement_platform.POJO.Waifu2xParameterEntity;
+import com.junkai.picture_enhancement_platform.service.Waifu2xServiceImpl;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 @RestController
 @RequestMapping("/image")
 public class PictureController {
-    @PostMapping
-    public String getImage(@RequestBody MultipartFile image) {
-        String filename = image.getOriginalFilename();
-        long size = image.getSize();
-        try {
-            image.transferTo(new java.io.File("E:/基于SSM的图片高清化平台/Picture_enhancement_platform/src/main/resources/images/" + filename));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return "路径"+filename+"大小"+size+"KB";
+
+
+    private final Waifu2xServiceImpl waifu2XServiceImpl;
+
+    public PictureController(Waifu2xServiceImpl waifu2XServiceImpl) {
+        this.waifu2XServiceImpl = waifu2XServiceImpl;
+    }
+
+    @PostMapping("/waifu2x")
+    public String getImageForWaifu2x(@RequestPart("image") MultipartFile image,
+                                     @RequestPart("data")Waifu2xParameterEntity data) {
+        return waifu2XServiceImpl.processLocalImage(image,data);
+    }
+
+    @PostMapping("Real_ESRGAN")
+    public String getImageForRealESRGAN(@RequestBody MultipartFile image, ModelParameterEntity data) {
+        return waifu2XServiceImpl.processLocalImage(image,data);
     }
 }
