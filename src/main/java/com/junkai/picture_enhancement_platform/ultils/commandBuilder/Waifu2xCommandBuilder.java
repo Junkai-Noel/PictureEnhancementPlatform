@@ -1,20 +1,17 @@
-package com.junkai.picture_enhancement_platform.ultils;
+package com.junkai.picture_enhancement_platform.ultils.commandBuilder;
 
 
 import com.junkai.picture_enhancement_platform.POJO.ModelParameterEntity;
 import com.junkai.picture_enhancement_platform.POJO.Waifu2xParameterEntity;
-import org.springframework.beans.factory.annotation.Value;
+import com.junkai.picture_enhancement_platform.ultils.modelParameter.Waifu2xParameters;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Waifu2xCommandBuilder {
+public class Waifu2xCommandBuilder extends CommandBuilder {
 
-    @Value("${waifu2x.inputPath}")
-    private String inputPath;
-    @Value("${waifu2x.outputPath}")
-    private String outputPath;
-
-    public String BuildWaifu2xCommand(String filename, ModelParameterEntity data) {
+    @Override
+    public String buildCommand(ModelParameterEntity data,String filename) {
         Waifu2xParameterEntity waifu2xParameterEntity = (Waifu2xParameterEntity) data;
         return Waifu2xParameters.HEAD.getValue() +
                 Waifu2xParameters.INPUT_HEADER.getValue() +
@@ -29,10 +26,13 @@ public class Waifu2xCommandBuilder {
                 Waifu2xParameters.MODEL_DIRECTION_HEADER.getValue() +
                 getModel(waifu2xParameterEntity) +
                 Waifu2xParameters.OUTPUT_HEADER.getValue() +
-                outputPath +
+                waifu2xOutputPath +
                 filename;
     }
-    private String getModel(Waifu2xParameterEntity waifu2xParameterEntity){
+
+    @Override
+    public String getModel(@NotNull ModelParameterEntity modelParameterEntity){
+        Waifu2xParameterEntity waifu2xParameterEntity = (Waifu2xParameterEntity)modelParameterEntity;
         return switch (waifu2xParameterEntity.getModel()){
             case "photo" -> Waifu2xParameters.MODEL_PHOTO.getValue();
             case "anime_rgb" -> Waifu2xParameters.MODEL_ANIME_STYLE_ART_RGB.getValue();

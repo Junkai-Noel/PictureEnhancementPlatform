@@ -1,4 +1,4 @@
-package com.junkai.picture_enhancement_platform.ultils;
+package com.junkai.picture_enhancement_platform.ultils.modelParameter;
 
 import lombok.Getter;
 

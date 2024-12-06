@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.junkai</groupId>
     <artifactId>Picture_enhancement_platform</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.2</version>
     <name>Picture_enhancement_platform</name>
     <description>Picture_enhancement_platform</description>
     <url/>
