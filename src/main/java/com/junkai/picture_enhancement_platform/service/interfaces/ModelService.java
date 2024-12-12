@@ -1,8 +1,10 @@
-package com.junkai.picture_enhancement_platform.service;
+package com.junkai.picture_enhancement_platform.service.interfaces;
 
 import com.junkai.picture_enhancement_platform.POJO.ModelParameterEntity;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+
 public interface ModelService {
-    String processLocalImage(MultipartFile file, ModelParameterEntity data);
+    File processLocalImage(MultipartFile file, ModelParameterEntity data);
 }

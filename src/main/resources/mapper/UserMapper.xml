@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.junkai.picture_enhancement_platform.mapper.UserMapper">
+    <update id="updateByUsername">
+        update user set nickname = #{nickname} where username = #{username} and is_deleted = 0;
+    </update>
+    <update id="updatePassword">
+        update user set password=#{newPassword} where username=#{username} and is_deleted=0
+    </update>
+    <delete id="deleteByUsername">
+        update user set is_deleted = 1 where username = #{username}
+    </delete>
+    <select id="selectAll" resultType="user">
+    select username, nickname, authorities from user where is_deleted = 0
+</select>
+    <select id="selectByUsername" resultType="com.junkai.picture_enhancement_platform.entity.User">
+        select username, nickname, authorities from user where username = #{username} and is_deleted = 0
+    </select>
+</mapper>
