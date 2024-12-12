@@ -1,3 +1,7 @@
 waifu2x:
-  inputPath: "E:/基于SSM的图片高清化平台/Picture_enhancement_platform/src/main/resources/images/"
-  outputPath: "E:/images/"
+  paths:
+    outputPath: "E:/images/waifu2x/"
+realESRGAN:
+  paths:
+    outputPath: "E:/images/real-ESRGAN/"
+inputPath: "E:/基于SSM的图片高清化平台/Picture_enhancement_platform/src/main/resources/images/temp/"

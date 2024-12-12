@@ -1,4 +1,4 @@
-package com.junkai.picture_enhancement_platform.ultils;
+package com.junkai.picture_enhancement_platform.ultils.modelParameter;
 
 import lombok.Getter;
 
@@ -14,10 +14,10 @@ public enum Waifu2xParameters {
     MODEL_NOISE_LEVEL("--noise_level "),
     MODEL_DIRECTION_HEADER("--model_dir "),
     MODEL_PHOTO("E:/super-resolution/waifu2x-caffe/models/photo "),
-    MODEL_ANIME_STYLE_ART("E:/super-resolution/waifu2x-caffe/models/anime_style_art "),
+    //MODEL_ANIME_STYLE_ART("E:/super-resolution/waifu2x-caffe/models/anime_style_art "),
     MODEL_ANIME_STYLE_ART_RGB("E:/super-resolution/waifu2x-caffe/models/anime_style_art_rgb "),
     MODEL_CUNET("E:/super-resolution/waifu2x-caffe/models/cunet "),
-    MODEL_UKBENCH("E:/super-resolution/waifu2x-caffe/models/ukbench "),
+    //MODEL_UKBENCH("E:/super-resolution/waifu2x-caffe/models/ukbench "),
     MODEL_UPCONV_7_ANIME_STYLE_ART_RGB("E:/super-resolution/waifu2x-caffe/models/upconv_7_anime_style_art_rgb "),
     MODEL_UPCONV_7_PHOTO("E:/super-resolution/waifu2x-caffe/models/upconv_7_photo "),
     MODEL_UPRESNET10("E:/super-resolution/waifu2x-caffe/models/upresnet10 ");
