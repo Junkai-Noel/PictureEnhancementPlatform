@@ -5,15 +5,17 @@ import lombok.Getter;
 
 @Getter
 public enum RealESRGANParameters {
-    HEAD("realesrgan-ncnn-vulkan.exe "),
+    HEAD("python "),
     INPUT_HEAD("-i "),
     OUTPUT_HEAD("-o "),
     SCALE("-s "),
     MODEL_HEAD("-n "),
-    FORMAT_HEAD("-f "),
-    MODEL_DEFAULT("realesrgan-x4plus "),
-    MODEL_REALESRNET("realesrnet-x4plus"),
-    MODEL_ANIME("realesrgan-x4plus-anime ");
+    FORMAT_HEAD("--ext "),
+    FACE_ENHANCE_HEAD("--face_enhance "),
+    MODEL_DEFAULT("RealESRGAN_x4plus "),
+    MODEL_REALESRNET("RealESRNet_x4plus "),
+    MODEL_ANIME("RealESRGAN_x4plus_anime_6B "),
+    MODEL_TINY("realesr-general-x4v3 ");
 
 
     private final String value;

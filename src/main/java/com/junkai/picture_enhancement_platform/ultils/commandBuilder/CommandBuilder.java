@@ -11,8 +11,10 @@ public abstract class CommandBuilder {
     protected String waifu2xOutputPath;
     @Value("${realESRGAN.paths.outputPath}")
     protected String realESRGANOutputPath;
+    @Value("${inferencePythonFile.path}")
+    String inferencePythonFilePath;
 
-    abstract String buildCommand( ModelParameterEntity data,String filename);
+    abstract public String buildCommand( ModelParameterEntity data,String filename);
 
     abstract String getModel(@NotNull ModelParameterEntity modelParameterEntity);
 }

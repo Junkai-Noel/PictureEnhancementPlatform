@@ -2,6 +2,7 @@ package com.junkai.picture_enhancement_platform.service.impls;
 
 import com.junkai.picture_enhancement_platform.POJO.ModelParameterEntity;
 import com.junkai.picture_enhancement_platform.service.interfaces.ModelService;
+import com.junkai.picture_enhancement_platform.ultils.commandBuilder.CondaEnvActivator;
 import com.junkai.picture_enhancement_platform.ultils.commandBuilder.RealESRGANCommandBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -20,16 +21,22 @@ import java.util.Objects;
 @Service
 public class RealESRGANServiceImpl implements ModelService {
 
+
     @Value("${inputPath}")
     private String inputPath;
     @Value("${realESRGAN.paths.outputPath}")
     private String outputPath;
+    @Value("${conda.env}")
+    private String condaEnv;
 
     private final RealESRGANCommandBuilder realESRGANCommandBuilder;
+    private final CondaEnvActivator condaEnvActivator;
 
-    public RealESRGANServiceImpl(RealESRGANCommandBuilder realESRGANCommandBuilder) {
+    public RealESRGANServiceImpl(RealESRGANCommandBuilder realESRGANCommandBuilder, CondaEnvActivator condaEnvActivator) {
         this.realESRGANCommandBuilder = realESRGANCommandBuilder;
+        this.condaEnvActivator = condaEnvActivator;
     }
+
 
     /**
      * 图片处理服务逻辑
@@ -45,8 +52,15 @@ public class RealESRGANServiceImpl implements ModelService {
         File outputFile = new File(inputPath + filename);
         try {
             file.transferTo(outputFile);
-            String command = realESRGANCommandBuilder.buildCommand(data,filename);
-            Process process = Runtime.getRuntime().exec(command);
+
+            String command = condaEnvActivator.buildCondaEnv() +
+                    condaEnv +
+                    " && " +
+                    realESRGANCommandBuilder.buildCommand(data,filename);
+            log.info("执行命令{}",command);
+            ProcessBuilder processBuilder = new ProcessBuilder();
+            processBuilder.command("cmd.exe", "/c", command);
+            Process process = processBuilder.start();
             // 获取输出流
             BufferedReader outputReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             // 读取输出流
@@ -57,18 +71,18 @@ public class RealESRGANServiceImpl implements ModelService {
             outputReader.close();
             // 等待进程结束并获取退出码
             int exitCode = process.waitFor();
-            if (outputFile.delete())
-                log.info("图片缓存已删除");
-
-            // 如果进程返回非零退出码，抛出异常
+            // 退出码非零，抛出异常
             if (exitCode != 0) {
                 log.error("Command execution failed with exit code: {}", exitCode);
                 throw new RuntimeException("Image processing failed.");
             }
-
-        }catch (IOException | InterruptedException e){
+        }catch (IOException | InterruptedException | RuntimeException e) {
             log.error(e.getMessage());
+        }finally {
+            if (outputFile.delete())
+                log.info("图片缓存已删除");
         }
-        return Paths.get(outputPath + filename).toFile();
+        String filenameHead = filename.substring(0, filename.lastIndexOf("."));
+        return Paths.get(outputPath + filenameHead+"_out.jpg").toFile();
     }
 }
