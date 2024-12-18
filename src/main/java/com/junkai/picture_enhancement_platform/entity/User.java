@@ -81,6 +81,7 @@ public class User implements UserDetails, Serializable {
 
         /**
          * 根据传入的role，构造用户的角色信息。先是创建一个新的Set<GrantedAuthority>实例，调用实例的add方法添加角色，然后调用Builder的authorities方法构造authorities
+         *
          * @param role 角色
          * @return Builder 实例
          */

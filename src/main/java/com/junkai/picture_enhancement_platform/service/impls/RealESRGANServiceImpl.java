@@ -56,8 +56,8 @@ public class RealESRGANServiceImpl implements ModelService {
             String command = condaEnvActivator.buildCondaEnv() +
                     condaEnv +
                     " && " +
-                    realESRGANCommandBuilder.buildCommand(data,filename);
-            log.info("执行命令{}",command);
+                    realESRGANCommandBuilder.buildCommand(data, filename);
+            log.info("执行命令{}", command);
             ProcessBuilder processBuilder = new ProcessBuilder();
             processBuilder.command("cmd.exe", "/c", command);
             Process process = processBuilder.start();
@@ -76,13 +76,13 @@ public class RealESRGANServiceImpl implements ModelService {
                 log.error("Command execution failed with exit code: {}", exitCode);
                 throw new RuntimeException("Image processing failed.");
             }
-        }catch (IOException | InterruptedException | RuntimeException e) {
+        } catch (IOException | InterruptedException | RuntimeException e) {
             log.error(e.getMessage());
-        }finally {
+        } finally {
             if (outputFile.delete())
                 log.info("图片缓存已删除");
         }
         String filenameHead = filename.substring(0, filename.lastIndexOf("."));
-        return Paths.get(outputPath + filenameHead+"_out.jpg").toFile();
+        return Paths.get(outputPath + filenameHead + "_out.jpg").toFile();
     }
 }

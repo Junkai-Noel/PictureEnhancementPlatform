@@ -29,15 +29,15 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                .requestMatchers("/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-        )
+                        .requestMatchers("/**")
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated()
+                )
                 .formLogin(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 //在过滤链中，于UsernamePasswordAuthenticationFilter过滤器前添加jwt过滤器
-                .addFilterBefore(new JwtValidationFilter(jwtProperties,userDetailsManagerImpl), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtValidationFilter(jwtProperties, userDetailsManagerImpl), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }

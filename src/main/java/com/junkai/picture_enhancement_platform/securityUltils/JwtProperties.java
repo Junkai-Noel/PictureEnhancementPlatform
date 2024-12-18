@@ -35,7 +35,8 @@ public class JwtProperties {
 
     /**
      * 为每个token生成一个唯一的UUID作为KeyId
-     * @return  UUID
+     *
+     * @return UUID
      */
     public static @NotNull String getUUID() {
         return UUID.randomUUID().toString().replaceAll("-", "");
@@ -61,6 +62,7 @@ public class JwtProperties {
 
     /**
      * 解析token
+     *
      * @param token String
      * @return Claims，token的解析对象
      */

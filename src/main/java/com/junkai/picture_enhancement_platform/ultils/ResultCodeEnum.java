@@ -13,8 +13,7 @@ public enum ResultCodeEnum {
     TOKEN_NOT_FOUND(505, "tokenNotFound"),
     USERNAME_USED(506, "userNameUsed"),
     USERNAME_NOTFOUND(507, "usernameNotFound"),
-    PASSWORD_NULL(508, "passwordNull"),;
-
+    PASSWORD_NULL(508, "passwordNull");
 
 
     private final Integer code;

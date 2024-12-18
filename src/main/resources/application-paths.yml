@@ -1,6 +1,3 @@
-waifu2x:
-  paths:
-    outputPath: "E:/images/waifu2x/ "
 realESRGAN:
   paths:
     outputPath: "E:/images/real-ESRGAN/ "

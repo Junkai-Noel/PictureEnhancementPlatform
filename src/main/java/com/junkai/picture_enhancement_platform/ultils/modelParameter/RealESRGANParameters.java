@@ -11,6 +11,7 @@ public enum RealESRGANParameters {
     SCALE("-s "),
     MODEL_HEAD("-n "),
     FORMAT_HEAD("--ext "),
+    DENOISE_HEAD("-d "),
     FACE_ENHANCE_HEAD("--face_enhance "),
     MODEL_DEFAULT("RealESRGAN_x4plus "),
     MODEL_REALESRNET("RealESRNet_x4plus "),
@@ -21,6 +22,6 @@ public enum RealESRGANParameters {
     private final String value;
 
     RealESRGANParameters(String value) {
-        this.value=value;
+        this.value = value;
     }
 }
