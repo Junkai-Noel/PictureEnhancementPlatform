@@ -87,35 +87,35 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     public Result<?> findByUsername(String username) {
         User user = userMapper.selectByUsername(username);
-        return  user==null
+        return user == null
                 ? new Result.Builder<>().resultCodeEnum(ResultCodeEnum.USERNAME_NOTFOUND).build()
                 : Result.ok(user);
     }
 
     public Result<?> changePassword(@NotNull User user) {
-        User DBUser = (User)userDetailsManagerImpl.loadUserByUsername(user.getUsername());
+        User DBUser = (User) userDetailsManagerImpl.loadUserByUsername(user.getUsername());
         int rows = userDetailsManagerImpl.customChangePassword(DBUser, user.getPassword());
-        return  rows>0
+        return rows > 0
                 ? Result.ok()
-                :new Result.Builder<>().resultCodeEnum(ResultCodeEnum.USERNAME_NOTFOUND).build();
+                : new Result.Builder<>().resultCodeEnum(ResultCodeEnum.USERNAME_NOTFOUND).build();
     }
 
     public Result<?> checkPassword(@NotNull User user) {
-        User DBUser =(User)userDetailsManagerImpl.loadUserByUsername(user.getUsername());
+        User DBUser = (User) userDetailsManagerImpl.loadUserByUsername(user.getUsername());
         return passwordUtils.matches(user.getPassword(), DBUser.getPassword())
                 ? Result.ok()
                 : new Result.Builder<>().resultCodeEnum(ResultCodeEnum.PASSWORD_ERROR).build();
     }
 
     public Result<?> login(@NotNull User user) {
-        if(!userDetailsManagerImpl.userExists(user.getUsername())) {
+        if (!userDetailsManagerImpl.userExists(user.getUsername())) {
             return new Result.Builder<>().resultCodeEnum(ResultCodeEnum.USERNAME_NOTFOUND).build();
         }
-        User DBUser =(User)userDetailsManagerImpl.loadUserByUsername(user.getUsername());
-        if(passwordUtils.matches(user.getPassword(), DBUser.getPassword())) {
+        User DBUser = (User) userDetailsManagerImpl.loadUserByUsername(user.getUsername());
+        if (passwordUtils.matches(user.getPassword(), DBUser.getPassword())) {
             String token = jwtProperties.generateToken(DBUser);
             return Result.ok(token);
-        }else
+        } else
             return new Result.Builder<>().resultCodeEnum(ResultCodeEnum.PASSWORD_ERROR).build();
     }
 }

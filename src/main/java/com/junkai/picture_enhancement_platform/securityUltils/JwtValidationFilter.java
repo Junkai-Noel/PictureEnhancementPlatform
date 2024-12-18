@@ -36,39 +36,40 @@ public class JwtValidationFilter extends OncePerRequestFilter {
      * 该方法执行:
      * <p>1、token的认证</p>
      * <p>2、将认证用户存入Spring Security上下文</p>
-     * @param request HttpServletRequest
-     * @param response HttpServletResponse
+     *
+     * @param request     HttpServletRequest
+     * @param response    HttpServletResponse
      * @param filterChain FilterChain-Spring Security的过滤器链
      */
     @Override
     protected void doFilterInternal(@NotNull HttpServletRequest request,
                                     @NotNull HttpServletResponse response,
                                     @NotNull FilterChain filterChain) throws ServletException, IOException {
-        try{
+        try {
             String token = request.getHeader("Authorization");
 
-        // 如果请求头中没有Authorization信息，或者Authorization以Bearer开头，则认为是匿名用户
-        if (StringUtils.isBlank(token) || !token.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-        // 去除 Bearer 前缀
-        token = token.substring(7);
-        //获取token解析对象
-        Claims claims = jwtProperties.parseToken(token);
-        //验证token是否过期
-        if(!claims.getExpiration().before(new Date(System.currentTimeMillis()))){
-            log.error("token过期");
-        }
-        //根据token中的用户名，获取数据库中的用户信息，并加载到Spring Security上下文中
-        //spring Security会自动将用户存入上下文，但前提是基于Session或是Basic Authentication。如果使用jwt，需要手动将用户存入上下文
-        String username = claims.getSubject();
-        UserDetails user = userDetailsManagerImpl.loadUserByUsername(username);
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        }catch (Exception e){
-            e.printStackTrace();
+            // 如果请求头中没有Authorization信息，或者Authorization以Bearer开头，则认为是匿名用户
+            if (StringUtils.isBlank(token) || !token.startsWith("Bearer ")) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+            // 去除 Bearer 前缀
+            token = token.substring(7);
+            //获取token解析对象
+            Claims claims = jwtProperties.parseToken(token);
+            //验证token是否过期
+            if (!claims.getExpiration().before(new Date(System.currentTimeMillis()))) {
+                log.error("token过期");
+            }
+            //根据token中的用户名，获取数据库中的用户信息，并加载到Spring Security上下文中
+            //spring Security会自动将用户存入上下文，但前提是基于Session或是Basic Authentication。如果使用jwt，需要手动将用户存入上下文
+            String username = claims.getSubject();
+            UserDetails user = userDetailsManagerImpl.loadUserByUsername(username);
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } catch (Exception e) {
+            log.error(e.getMessage());
             //log.error("token认证发生错误，错误信息：{}",e.getMessage());
             SecurityContextHolder.clearContext();
         }

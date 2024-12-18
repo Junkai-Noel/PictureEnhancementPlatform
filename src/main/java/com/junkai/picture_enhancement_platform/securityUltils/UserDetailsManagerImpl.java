@@ -36,23 +36,22 @@ public class UserDetailsManagerImpl implements UserDetailsManager {
     }
 
 
-
     public int customUpdateUser(@NotNull UserDetails user) {
         User finalUser = (User) user;
         return userMapper.updateByUsername(finalUser);
     }
 
-    public int customChangePassword(@NotNull User user,String newPassword) {
+    public int customChangePassword(@NotNull User user, String newPassword) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         newPassword = passwordUtils.encodePassword(newPassword);
-        return userMapper.updatePassword(username,newPassword);
+        return userMapper.updatePassword(username, newPassword);
     }
 
     @Override
     public void changePassword(String oldPassword, String newPassword) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         newPassword = passwordUtils.encodePassword(newPassword);
-        userMapper.updatePassword(username,newPassword);
+        userMapper.updatePassword(username, newPassword);
     }
 
     @Override
@@ -80,6 +79,7 @@ public class UserDetailsManagerImpl implements UserDetailsManager {
     public void updateUser(UserDetails user) {
 
     }
+
     @Override
     public void deleteUser(String username) {
 

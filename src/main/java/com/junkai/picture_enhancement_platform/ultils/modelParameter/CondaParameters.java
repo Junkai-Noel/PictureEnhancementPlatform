@@ -6,6 +6,7 @@ import lombok.Getter;
 public enum CondaParameters {
     CONDA_ACTIVATE("conda activate ");
     private final String value;
+
     CondaParameters(String value) {
         this.value = value;
     }

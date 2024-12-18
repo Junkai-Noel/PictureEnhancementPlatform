@@ -29,8 +29,12 @@ public class RealESRGANCommandBuilder extends CommandBuilder {
                 RealESRGANParameters.FORMAT_HEAD.getValue() +
                 realESRGANParameterEntity.getFormat() +
                 " ";
-        if(realESRGANParameterEntity.isFaceEnhance())
-            command+=RealESRGANParameters.FACE_ENHANCE_HEAD.getValue();
+        if (realESRGANParameterEntity.isFaceEnhance())
+            command += RealESRGANParameters.FACE_ENHANCE_HEAD.getValue();
+        if (StringUtils.equals(getModel(realESRGANParameterEntity), RealESRGANParameters.MODEL_TINY.getValue()))
+            command += RealESRGANParameters.DENOISE_HEAD.getValue() +
+                    realESRGANParameterEntity.getDenoise() +
+                    " ";
         return command;
     }
 

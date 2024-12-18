@@ -14,6 +14,7 @@ public class Result<T> {
 
     /**
      * 私有构造器，供Builder内部类使用
+     *
      * @param builder Builder
      */
     private Result(@NotNull Builder<T> builder) {
@@ -24,6 +25,7 @@ public class Result<T> {
 
     /**
      * 将枚举值比较操作封装到方法中，避免在其他类繁琐地从封装对象中getMassage然后比对字符串
+     *
      * @param resultCodeEnum ResultCodeEnum
      * @return boolean
      */
@@ -32,9 +34,10 @@ public class Result<T> {
     }
 
     /**
-     *  两个方法用于构造有data和null data的ok
-     * @return result
+     * 两个方法用于构造有data和null data的ok
+     *
      * @param <T> Class Type
+     * @return result
      */
     public static <T> @NotNull Result<T> ok() {
         return new Builder<T>()
@@ -52,6 +55,7 @@ public class Result<T> {
 
     /**
      * 静态内部类，用于构造Result类参数
+     *
      * @param <T> Class Type
      */
     public static class Builder<T> {
@@ -62,6 +66,7 @@ public class Result<T> {
         /**
          * 调用Result类的私有构造器，返回builder对象自己。
          * 此时builder对象已完成必要的参数赋值，将builder对象传过去，再在result构造方法中完成result类成员变量的赋值即可
+         *
          * @return result Result
          */
         public Result<T> build() {
@@ -71,6 +76,7 @@ public class Result<T> {
 
         /**
          * 对参数赋值
+         *
          * @param code int
          * @return this
          */
@@ -78,8 +84,10 @@ public class Result<T> {
             this.code = code;
             return this;
         }
+
         /**
          * 对参数赋值
+         *
          * @param msg String
          * @return this
          */
@@ -87,8 +95,10 @@ public class Result<T> {
             this.msg = msg;
             return this;
         }
+
         /**
          * 对参数赋值
+         *
          * @param data T
          * @return this
          */
@@ -96,8 +106,10 @@ public class Result<T> {
             this.data = data;
             return this;
         }
+
         /**
          * 对参数赋值
+         *
          * @param resultCodeEnum ResultCodeEnum
          * @return this
          */

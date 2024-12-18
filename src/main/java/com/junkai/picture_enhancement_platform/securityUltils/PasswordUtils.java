@@ -18,7 +18,7 @@ public class PasswordUtils {
     }
 
     //验证方法
-    public  boolean matches(String rawPassword, String encodedPassword) {
+    public boolean matches(String rawPassword, String encodedPassword) {
         return encoder.matches(rawPassword, encodedPassword);
     }
 }
