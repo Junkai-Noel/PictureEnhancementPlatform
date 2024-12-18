@@ -1,6 +1,5 @@
 package com.junkai.picture_enhancement_platform.service.impls;
 
-import com.junkai.picture_enhancement_platform.POJO.RealESRGANParameterEntity;
 import com.junkai.picture_enhancement_platform.ultils.commandBuilder.CommandBuilder;
 import com.junkai.picture_enhancement_platform.ultils.commandBuilder.CondaEnvActivator;
 import org.junit.jupiter.api.Test;
@@ -8,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class RealESRGANServiceImplTest {
