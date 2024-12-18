@@ -1,7 +1,9 @@
 waifu2x:
   paths:
-    outputPath: "E:/images/waifu2x/"
+    outputPath: "E:/images/waifu2x/ "
 realESRGAN:
   paths:
-    outputPath: "E:/images/real-ESRGAN/"
-inputPath: "E:/基于SSM的图片高清化平台/Picture_enhancement_platform/src/main/resources/images/temp/"
+    outputPath: "E:/images/real-ESRGAN/ "
+inputPath:  "E:/Super-Resolution_Platform/Picture_enhancement_platform/src/main/resources/images/temp/ "
+inferencePythonFile:
+  path: "E:/Super-Resolution_Platform/Picture_enhancement_platform/Real-ESRGAN/inference_realesrgan.py "

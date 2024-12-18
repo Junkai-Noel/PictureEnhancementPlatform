@@ -12,29 +12,37 @@ public class RealESRGANCommandBuilder extends CommandBuilder {
 
 
     @Override
-    public String buildCommand(ModelParameterEntity data,String filename ) {
+    public String buildCommand(ModelParameterEntity data, String filename) {
         RealESRGANParameterEntity realESRGANParameterEntity = (RealESRGANParameterEntity) data;
-        return RealESRGANParameters.HEAD.getValue()+
-                RealESRGANParameters.INPUT_HEAD.getValue()+
-                inputPath+ filename+" "+
-                RealESRGANParameters.OUTPUT_HEAD.getValue()+
-                realESRGANOutputPath+ filename+" "+
-                RealESRGANParameters.SCALE.getValue()+
-                realESRGANParameterEntity.getScale()+" "+
-                RealESRGANParameters.MODEL_HEAD.getValue()+
-                getModel(data)+
-                RealESRGANParameters.FORMAT_HEAD.getValue()+
-                realESRGANParameterEntity.getFormat();
+
+        String command = RealESRGANParameters.HEAD.getValue() +
+                inferencePythonFilePath +
+                RealESRGANParameters.MODEL_HEAD.getValue() +
+                getModel(realESRGANParameterEntity) +
+                RealESRGANParameters.INPUT_HEAD.getValue() +
+                inputPath +
+                RealESRGANParameters.OUTPUT_HEAD.getValue() +
+                realESRGANOutputPath +
+                RealESRGANParameters.SCALE.getValue() +
+                realESRGANParameterEntity.getScale() +
+                " " +
+                RealESRGANParameters.FORMAT_HEAD.getValue() +
+                realESRGANParameterEntity.getFormat() +
+                " ";
+        if(realESRGANParameterEntity.isFaceEnhance())
+            command+=RealESRGANParameters.FACE_ENHANCE_HEAD.getValue();
+        return command;
     }
 
     @Override
     String getModel(@NotNull ModelParameterEntity modelParameterEntity) {
         RealESRGANParameterEntity realESRGANParameterEntity = (RealESRGANParameterEntity) modelParameterEntity;
-        if(StringUtils.isEmpty(realESRGANParameterEntity.getModel()))
+        if (StringUtils.isEmpty(realESRGANParameterEntity.getModel()))
             return RealESRGANParameters.MODEL_DEFAULT.getValue();
-        return switch (realESRGANParameterEntity.getModel()){
+        return switch (realESRGANParameterEntity.getModel()) {
             case "realESRNET" -> RealESRGANParameters.MODEL_REALESRNET.getValue();
             case "anime" -> RealESRGANParameters.MODEL_ANIME.getValue();
+            case "tiny" -> RealESRGANParameters.MODEL_TINY.getValue();
             default -> RealESRGANParameters.MODEL_DEFAULT.getValue();
         };
     }
