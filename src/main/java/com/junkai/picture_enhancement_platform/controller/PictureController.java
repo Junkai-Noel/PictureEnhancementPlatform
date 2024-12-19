@@ -2,7 +2,10 @@ package com.junkai.picture_enhancement_platform.controller;
 
 
 import com.junkai.picture_enhancement_platform.POJO.RealESRGANParameterEntity;
+import com.junkai.picture_enhancement_platform.exception.PlatformException;
 import com.junkai.picture_enhancement_platform.service.interfaces.ModelService;
+import com.junkai.picture_enhancement_platform.ultils.Result;
+import com.junkai.picture_enhancement_platform.ultils.ResultCodeEnum;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -45,5 +48,10 @@ public class PictureController {
         } else {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PostMapping("/test")
+    public Result<?> a() {
+        throw new PlatformException(ResultCodeEnum.USERNAME_ERROR);
     }
 }

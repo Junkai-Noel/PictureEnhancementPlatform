@@ -42,7 +42,7 @@ public class UserDetailsManagerImpl implements UserDetailsManager {
     }
 
     public int customChangePassword(@NotNull User user, String newPassword) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        String username = user.getUsername();
         newPassword = passwordUtils.encodePassword(newPassword);
         return userMapper.updatePassword(username, newPassword);
     }

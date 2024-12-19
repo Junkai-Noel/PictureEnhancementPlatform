@@ -53,7 +53,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .username(user.getUsername())
                 .password(passwordUtils.encodePassword(user.getPassword()))
                 .nickname(user.getNickname())
-                .role(StringUtils.isBlank(user.getRole()) ? "USER" : user.getRole())
+                .role(StringUtils.isBlank(user.getRole()) ? "user" : user.getRole())
                 .build();
         userDetailsManagerImpl.createUser(finalUser);
         return Result.ok();
@@ -75,33 +75,33 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         int rows = userDetailsManagerImpl.customUpdateUser(user);
         return rows > 0 ?
                 Result.ok(rows) :
-                new Result.Builder<>().resultCodeEnum(ResultCodeEnum.USERNAME_NOTFOUND).build();
+                new Result.Builder<>().resultCodeEnum(ResultCodeEnum.USERNAME_ERROR).build();
     }
 
     public Result<?> deleteUser(User user) {
         int rows = userDetailsManagerImpl.customDeleteUser(user);
         return rows > 0 ?
                 Result.ok(rows) :
-                new Result.Builder<>().resultCodeEnum(ResultCodeEnum.USERNAME_NOTFOUND).build();
+                new Result.Builder<>().resultCodeEnum(ResultCodeEnum.USERNAME_ERROR).build();
     }
 
     public Result<?> findByUsername(String username) {
         User user = userMapper.selectByUsername(username);
         return user == null
-                ? new Result.Builder<>().resultCodeEnum(ResultCodeEnum.USERNAME_NOTFOUND).build()
+                ? new Result.Builder<>().resultCodeEnum(ResultCodeEnum.USERNAME_ERROR).build()
                 : Result.ok(user);
     }
 
-    public Result<?> changePassword(@NotNull User user) {
-        User DBUser = (User) userDetailsManagerImpl.loadUserByUsername(user.getUsername());
+    public Result<?> changePassword(String username, @NotNull User user) {
+        User DBUser = (User) userDetailsManagerImpl.loadUserByUsername(username);
         int rows = userDetailsManagerImpl.customChangePassword(DBUser, user.getPassword());
         return rows > 0
                 ? Result.ok()
-                : new Result.Builder<>().resultCodeEnum(ResultCodeEnum.USERNAME_NOTFOUND).build();
+                : new Result.Builder<>().resultCodeEnum(ResultCodeEnum.USERNAME_ERROR).build();
     }
 
-    public Result<?> checkPassword(@NotNull User user) {
-        User DBUser = (User) userDetailsManagerImpl.loadUserByUsername(user.getUsername());
+    public Result<?> checkPassword(String username, @NotNull User user) {
+        User DBUser = (User) userDetailsManagerImpl.loadUserByUsername(username);
         return passwordUtils.matches(user.getPassword(), DBUser.getPassword())
                 ? Result.ok()
                 : new Result.Builder<>().resultCodeEnum(ResultCodeEnum.PASSWORD_ERROR).build();
@@ -109,7 +109,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     public Result<?> login(@NotNull User user) {
         if (!userDetailsManagerImpl.userExists(user.getUsername())) {
-            return new Result.Builder<>().resultCodeEnum(ResultCodeEnum.USERNAME_NOTFOUND).build();
+            return new Result.Builder<>().resultCodeEnum(ResultCodeEnum.USERNAME_ERROR).build();
         }
         User DBUser = (User) userDetailsManagerImpl.loadUserByUsername(user.getUsername());
         if (passwordUtils.matches(user.getPassword(), DBUser.getPassword())) {

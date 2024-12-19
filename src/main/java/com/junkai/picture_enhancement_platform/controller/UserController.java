@@ -62,7 +62,7 @@ public class UserController {
         if (StringUtils.isBlank(user.getPassword()))
             return new Result.Builder<>().resultCodeEnum(ResultCodeEnum.PASSWORD_NULL).build();
         else
-            return userServiceImpl.changePassword(user);
+            return userServiceImpl.changePassword(username,user);
     }
 
     /**
@@ -72,11 +72,11 @@ public class UserController {
      * @param user     用户对象，包含用户输入的密码
      * @return 响应
      */
-    @GetMapping("/{username}/password")
+    @PostMapping("/{username}/password")
     public Result<?> checkPassword(@PathVariable String username, @RequestBody User user) {
         if (StringUtils.isBlank(user.getPassword()))
             return new Result.Builder<>().resultCodeEnum(ResultCodeEnum.PASSWORD_NULL).build();
         else
-            return userServiceImpl.checkPassword(user);
+            return userServiceImpl.checkPassword(username,user);
     }
 }

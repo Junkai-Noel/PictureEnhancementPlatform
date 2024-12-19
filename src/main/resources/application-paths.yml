@@ -4,3 +4,6 @@ realESRGAN:
 inputPath:  "E:/Super-Resolution_Platform/Picture_enhancement_platform/src/main/resources/images/temp/ "
 inferencePythonFile:
   path: "E:/Super-Resolution_Platform/Picture_enhancement_platform/Real-ESRGAN/inference_realesrgan.py "
+logging:
+  file:
+    path: E:\Super-Resolution_Platform\Picture_enhancement_platform\logs
