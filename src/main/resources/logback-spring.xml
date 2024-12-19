@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <!-- 定义日志文件的路径 -->
+    <property name="LOG_PATH" value="${LOG_PATH:-.}" />
+
+    <!-- 引入Spring Boot默认的日志配置 -->
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+    <!-- 错误级别日志的输出配置 -->
+    <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 日志文件的路径，日期格式动态生成文件名 -->
+        <file>${LOG_PATH}/error.log</file>
+
+        <!-- 日志滚动策略 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 按照日期分文件，最多保存14天的日志 -->
+            <fileNamePattern>${LOG_PATH}/error-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>14</maxHistory>
+            <totalSizeCap>3GB</totalSizeCap>
+        </rollingPolicy>
+
+        <!-- 只记录ERROR级别的日志 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <!-- 日志输出格式 -->
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} - %level - %msg%n%xThrowable{100}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 配置根日志级别 -->
+    <root level="INFO">
+        <!-- 控制台输出 -->
+        <appender-ref ref="CONSOLE" />
+        <!-- 错误日志文件输出 -->
+        <appender-ref ref="ERROR_FILE" />
+    </root>
+
+    <!-- 如果你只想记录特定包的ERROR日志 -->
+    <!-- <logger name="com.example" level="ERROR">
+        <appender-ref ref="ERROR_FILE" />
+    </logger> -->
+</configuration>

@@ -1,7 +1,9 @@
 package com.junkai.picture_enhancement_platform.service.impls;
 
 import com.junkai.picture_enhancement_platform.POJO.ModelParameterEntity;
+import com.junkai.picture_enhancement_platform.exception.PlatformException;
 import com.junkai.picture_enhancement_platform.service.interfaces.ModelService;
+import com.junkai.picture_enhancement_platform.ultils.ResultCodeEnum;
 import com.junkai.picture_enhancement_platform.ultils.commandBuilder.CondaEnvActivator;
 import com.junkai.picture_enhancement_platform.ultils.commandBuilder.RealESRGANCommandBuilder;
 import lombok.extern.slf4j.Slf4j;
@@ -73,11 +75,11 @@ public class RealESRGANServiceImpl implements ModelService {
             int exitCode = process.waitFor();
             // 退出码非零，抛出异常
             if (exitCode != 0) {
-                log.error("Command execution failed with exit code: {}", exitCode);
-                throw new RuntimeException("Image processing failed.");
+                log.error("命令执行失败: {}", exitCode);
+                throw new PlatformException(ResultCodeEnum.IMAGE_PROCESS_FAIL);
             }
-        } catch (IOException | InterruptedException | RuntimeException e) {
-            log.error(e.getMessage());
+        } catch (IOException | InterruptedException | PlatformException e) {
+           throw new PlatformException(ResultCodeEnum.IMAGE_PROCESS_FAIL,e);
         } finally {
             if (outputFile.delete())
                 log.info("图片缓存已删除");
